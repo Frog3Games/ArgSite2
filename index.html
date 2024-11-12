@@ -24,17 +24,36 @@
             line-height: 1.2; /* Небольшой интервал между строками для удобочитаемости */
             cursor: pointer; /* Курсор "указатель" при наведении */
         }
+        .incorrect {
+            color: red; /* Цвет текста для неправильного ввода */
+        }
     </style>
     <script>
+        let incorrectAttempts = 0; // Счётчик неправильных попыток
+
         function requestPassword() {
             const correctPassword = "50471";
             const userPassword = prompt("Введите пароль:");
 
             if (userPassword === correctPassword) {
-                window.location.href = "https://www.youtube.com/watch?v=KGavUrhy99c&t=2s&ab_channel=FrogGamesRus";
+                // Если пароль правильный, продолжаем работу
+                const textElement = document.querySelector('div');
+                textElement.innerHTML = "Пароль правильный!";
+                textElement.classList.remove("incorrect"); // Убираем красный цвет
             } else if (userPassword !== null) {
-                // Закрытие окна браузера (если поддерживается)
-                window.open('', '_self').close();
+                // Если неправильный пароль
+                incorrectAttempts++;
+
+                const textElement = document.querySelector('div');
+
+                if (incorrectAttempts === 1) {
+                    // Первая неправильная попытка
+                    textElement.classList.add("incorrect"); // Делаем текст красным
+                    textElement.innerHTML = "ТЫ ЖЕ ЗНАЕШЬ ЭТО!"; // Меняем текст
+                } else if (incorrectAttempts === 2) {
+                    // Вторая неправильная попытка - закрыть вкладку
+                    window.close(); // Закрывает вкладку
+                }
             }
         }
     </script>
